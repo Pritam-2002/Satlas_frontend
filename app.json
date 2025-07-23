@@ -1,0 +1,41 @@
+{
+  "expo": {
+    "name": "SatlasApp",
+    "slug": "SatlasApp",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "userInterfaceStyle": "light",
+    "newArchEnabled": true,
+    "splash": {
+      "image": "./assets/splash-icon.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#ffffff"
+    },
+    "ios": {
+      "supportsTablet": true
+    },
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/adaptive-icon.png",
+        "backgroundColor": "#ffffff"
+      }
+    },
+    "web": {
+      "favicon": "./assets/favicon.png"
+    },
+    "fonts": {
+      "Urbanist": "./assets/fonts/Urbanist-Regular.ttf",
+      "Urbanist-Regular": "./assets/fonts/Urbanist-Regular.ttf",
+      "Urbanist-Medium": "./assets/fonts/Urbanist-Medium.ttf",
+      "Inter": "./assets/fonts/Inter-Regular.ttf",
+      "Inter-Light": "./assets/fonts/Inter-Light.ttf",
+      "Inter-Regular": "./assets/fonts/Inter-Regular.ttf",
+      "Inter-Medium": "./assets/fonts/Inter-Medium.ttf",
+      "Poppins-Regular": "./assets/fonts/Poppins-Regular.ttf",
+      "Poppins-Medium": "./assets/fonts/Poppins-Medium.ttf",
+      "Poppins-SemiBold": "./assets/fonts/Poppins-SemiBold.ttf",
+      "Poppins-Bold": "./assets/fonts/Poppins-Bold.ttf"
+    }
+  }
+}

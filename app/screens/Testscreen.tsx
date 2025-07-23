@@ -1,0 +1,421 @@
+import React from 'react';
+import {
+  View,
+  Text,
+  StyleSheet,
+  ScrollView,
+  TouchableOpacity,
+} from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import Icon from 'react-native-vector-icons/Ionicons';
+import { RFValue } from 'react-native-responsive-fontsize';
+import { LinearGradient } from 'expo-linear-gradient';
+import { useNavigation } from '@react-navigation/native';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { HomeStackParamList } from '../navigation/HomestackNavigator';
+
+// Test Card Component matching Figma design
+const TestCard = ({ title, subject, level, duration, status, onPress }: {
+  title: string;
+  subject: string;
+  level: string;
+  duration: string;
+  status: 'completed' | 'available' | 'locked';
+  onPress: () => void;
+}) => {
+  return (
+    <TouchableOpacity style={styles.testCard} onPress={onPress}>
+      <View style={styles.cardContent}>
+        {/* Subject badge */}
+        <View style={styles.subjectBadge}>
+          <Text style={styles.subjectText}>{subject}</Text>
+        </View>
+
+        {/* Level badge */}
+        <View style={[styles.levelBadge, level === 'Level 2' && styles.levelBadge2]}>
+          <Text style={styles.levelText}>{level}</Text>
+        </View>
+
+        {/* Duration */}
+        <Text style={styles.durationText}>{duration}</Text>
+
+        {/* Title */}
+        <Text style={styles.testTitle}>{title}</Text>
+      </View>
+
+      {/* Status icon */}
+      <View style={styles.statusIconContainer}>
+        {status === 'completed' ? (
+          <View style={styles.completedIcon}>
+            <Icon name="checkmark" size={12} color="#FFFFFF" />
+          </View>
+        ) : status === 'available' ? (
+          <Icon name="play" size={16} color="#5767CE" />
+        ) : (
+          <Icon name="lock-closed" size={16} color="#ED7979" />
+        )}
+      </View>
+
+      {/* Book icon */}
+      <View style={styles.bookIcon}>
+        <Icon name="book" size={18} color="#5767CE" />
+      </View>
+    </TouchableOpacity>
+  );
+};
+
+const TestScreen = () => {
+  const navigation = useNavigation<NativeStackNavigationProp<HomeStackParamList>>();
+
+  const handleTestPress = (testId: string) => {
+    navigation.navigate('TestInterface');
+  };
+
+  return (
+    <LinearGradient
+      colors={['#dbe6ff', '#ffffff']} // light blue to white
+      start={{ x: 0.5, y: 0 }}
+      end={{ x: 0.5, y: 1 }}
+      style={styles.gradient}
+    >
+      <SafeAreaView style={styles.safeArea}>
+        {/* Header */}
+        <View style={styles.header}>
+          <View style={styles.headerRow}>
+            <TouchableOpacity onPress={() => navigation.goBack()}>
+              <Icon name="arrow-back-circle" size={30} color="#376AED" />
+            </TouchableOpacity>
+
+            <Text style={styles.headerTitle}>SAT Dashboard</Text>
+          </View>
+
+          <View style={styles.headerRow}>
+            <TouchableOpacity style={styles.notificationButton}>
+              <View style={styles.notificationIcon}>
+                <Icon name="notifications-outline" size={20} color="#FFFFFF" />
+                <View style={styles.notificationBadge} />
+              </View>
+            </TouchableOpacity>
+
+            <View style={styles.avatarContainer}>
+              <Icon name="person" size={20} color="#ffff" />
+            </View>
+          </View>
+
+        </View>
+
+        <View >
+          {/* Performance Cards */}
+          <View style={styles.performanceContainer}>
+            {/* Tests Completed */}
+            <View style={styles.performanceCard}>
+              {/* performance card row section  */}
+              <View style={styles.performanceRow}>
+                <View style={styles.performanceIcon}>
+                  <Icon name="checkmark" size={16} color="#FFFFFF" />
+                </View>
+                <Text style={styles.performanceLabel} numberOfLines={2}>Test Completed</Text>
+              </View>
+
+              <Text style={styles.performanceNumber}>12</Text>
+
+            </View>
+
+            {/* Average Time Duration */}
+            <View style={styles.performanceCard}>
+              <View style={styles.performanceRow}>
+
+                <View style={[styles.performanceIcon, { backgroundColor: '#F2F2F2' }]}>
+                  <Icon name="time-outline" size={16} color="#376AED" />
+                </View>
+                <Text style={styles.performanceLabel}>Avg. Time Duration</Text>
+              </View>
+
+
+              <Text style={[styles.performanceNumber]}>1h 46m</Text>
+
+            </View>
+          </View>
+
+          {/* Performance Analysis Link */}
+          <TouchableOpacity style={styles.analysisLink}>
+            <Text style={styles.analysisText}>Performance Analysis</Text>
+          </TouchableOpacity>
+
+          {/* Practice Tests Section */}
+          <Text style={styles.sectionTitle}>Practice Tests</Text>
+        </View>
+
+
+
+        {/* Test SCroller section contains of test cards */}
+        <ScrollView style={styles.scrollView} showsVerticalScrollIndicator={false}>
+          {/* Test Cards */}
+          <View style={styles.testsContainer}>
+            <TestCard
+              title="SAT Practice Test 1"
+              subject="Math & English"
+              level="Level 1"
+              duration="00:42:21"
+              status="completed"
+              onPress={() => handleTestPress('test1')}
+            />
+
+            <TestCard
+              title="SAT Practice Test 2"
+              subject="Math & English"
+              level="Level 1"
+              duration="00:58:48"
+              status="completed"
+              onPress={() => handleTestPress('test2')}
+            />
+
+            <TestCard
+              title="SAT Practice Test 3"
+              subject="Math & English"
+              level="Level 2"
+              duration="00:00:00"
+              status="available"
+              onPress={() => handleTestPress('test3')}
+            />
+
+            <TestCard
+              title="SAT Practice Test 4"
+              subject="Math & English"
+              level="Level 2"
+              duration="00:00:00"
+              status="locked"
+              onPress={() => handleTestPress('test4')}
+            />
+          </View>
+        </ScrollView>
+      </SafeAreaView>
+    </LinearGradient>
+  );
+};
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
+  safeArea: {
+    flex: 1,
+    paddingTop: "10%",
+
+  },
+  gradient: {
+    flex: 1,
+  },
+  header: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    paddingHorizontal: 26,
+    paddingTop: 15,
+    paddingBottom: 15,
+  },
+  headerRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 10
+  },
+  headerTitle: {
+    fontSize: 18,
+    fontWeight: '700',
+    color: '#000000',
+    fontFamily: 'Inter',
+  },
+  notificationButton: {
+    width: 32,
+    height: 32,
+    backgroundColor: '#339657',
+    borderRadius: 16,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  notificationIcon: {
+    position: 'relative',
+  },
+  notificationBadge: {
+    position: 'absolute',
+    top: "-1%",
+    right: "-1%",
+    width: 5,
+    height: 5,
+    backgroundColor: '#FF6B2C',
+    borderRadius: 2.5,
+  },
+  avatarContainer: {
+    alignItems: 'center',
+    justifyContent: "center",
+    width: 40,
+    borderColor: "#F7B500",
+    borderWidth: 1,
+    borderRadius: 9999,
+    height: 40,
+  },
+  performanceRow: {
+    flexDirection: 'row', alignItems: 'center', gap: 8, width: "100%", justifyContent: 'space-between', paddingBottom: "0.5%",
+  },
+  avatar: {
+    height: "100%",
+    width: "100%",
+    borderWidth: 1,
+    borderColor: '#F7B500',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  scrollView: {
+    flex: 1,
+    marginTop: 20,
+    borderTopLeftRadius: 20,
+  },
+  performanceContainer: {
+    flexDirection: 'row',
+    paddingHorizontal: 29,
+    paddingTop: 30,
+    gap: 8,
+    width: "100%"
+  },
+  performanceCard: {
+
+    backgroundColor: '#376AED',
+    borderRadius: 16,
+    paddingHorizontal: "3%",
+    paddingVertical: "2%",
+    width: "50%"
+
+  },
+  performanceIcon: {
+    width: 32,
+    height: 32,
+    backgroundColor: '#07E092',
+    borderRadius: 8,
+    alignItems: 'center',
+    justifyContent: 'center',
+
+  },
+  performanceNumber: {
+    fontSize: 32,
+    fontWeight: 'bold',
+    color: '#FFFFFF',
+    fontFamily: 'Rubik',
+
+
+  },
+  performanceLabel: {
+    fontSize: 16,
+    fontWeight: '400',
+    color: 'white',
+    fontFamily: 'Poppins',
+    width: "70%",
+
+
+
+  },
+  analysisLink: {
+    alignItems: 'flex-end',
+    paddingHorizontal: 29,
+    paddingTop: 12,
+  },
+  analysisText: {
+    fontSize: 14,
+    fontWeight: '400',
+    color: '#0754AF',
+    fontFamily: 'Inter',
+  },
+  sectionTitle: {
+    fontSize: 20,
+    fontWeight: '500',
+    color: '#070417',
+    fontFamily: 'Poppins',
+    paddingHorizontal: 16,
+    paddingTop: 24,
+    paddingBottom: 10,
+  },
+  testsContainer: {
+    paddingHorizontal: 16,
+    gap: 13,
+    paddingBottom: 100,
+  },
+  testCard: {
+    backgroundColor: '#F4F7FA',
+    borderRadius: 12,
+    padding: 16,
+    height: 90,
+    flexDirection: 'row',
+    alignItems: 'center',
+    position: 'relative',
+  },
+  cardContent: {
+    flex: 1,
+  },
+  subjectBadge: {
+    backgroundColor: '#F1E2FF',
+    borderRadius: 6,
+    paddingVertical: 5,
+    paddingHorizontal: 8,
+    alignSelf: 'flex-start',
+    marginBottom: 8,
+  },
+  subjectText: {
+    fontSize: 12,
+    fontWeight: '400',
+    color: '#9B51E0',
+    fontFamily: 'Rubik',
+  },
+  levelBadge: {
+    backgroundColor: '#FFEFF1',
+    borderRadius: 6,
+    paddingVertical: 5,
+    paddingHorizontal: 8,
+    position: 'absolute',
+    top: 0,
+    left: 110,
+  },
+  levelBadge2: {
+    backgroundColor: '#FFD4DA',
+  },
+  levelText: {
+    fontSize: 12,
+    fontWeight: '400',
+    color: '#FD5B71',
+    fontFamily: 'Rubik',
+  },
+  durationText: {
+    fontSize: 12,
+    fontWeight: '400',
+    color: '#4F4F4F',
+    fontFamily: 'Poppins',
+    position: 'absolute',
+    top: 0,
+    right: 0,
+  },
+  testTitle: {
+    fontSize: 14,
+    fontWeight: '500',
+    color: '#000000',
+    fontFamily: 'Poppins',
+    marginTop: 32,
+  },
+  statusIconContainer: {
+    position: 'absolute',
+    top: 16,
+    right: 16,
+  },
+  completedIcon: {
+    width: 17,
+    height: 17,
+    backgroundColor: '#07E092',
+    borderRadius: 8,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  bookIcon: {
+    position: 'absolute',
+    bottom: 16,
+    left: 28,
+  },
+});
+
+export default TestScreen; 
