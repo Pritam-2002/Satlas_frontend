@@ -22,7 +22,10 @@ export type HomeStackParamList = {
   DailyQuiz: undefined;
   Scholarships: undefined;
   Test: undefined;
-  TestInterface: undefined;
+  TestInterface: {
+    joinedQuestionId: string;
+    questionPaperId: string;
+  };
   TestResults: {
     results: Array<{
       questionId: string;

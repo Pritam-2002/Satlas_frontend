@@ -8,6 +8,7 @@ import {
   Alert,
   Image,
   AppState,
+  Modal, // Add Modal import
 } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -15,17 +16,21 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import { RFValue } from 'react-native-responsive-fontsize';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useNavigation } from '@react-navigation/native';
-import { quizService } from '../../services/quizService';
+import quizService from '../../services/quizService';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { HomeStackParamList } from '../../navigation/HomestackNavigator';
 import PaperGrid from '../../components/PaperGrid';
 import { tokenUtils } from '../../utils/apiClient';
+import { useRoute } from '@react-navigation/native';
 
 const TOTAL_TIME = 90 * 60; // 90 minutes in seconds
 const TEST_STATE_KEY = 'testState';
 
 const TestInterface = () => {
   const navigation = useNavigation<NativeStackNavigationProp<HomeStackParamList>>();
+  const route = useRoute();
+  const joinedQuestionId = route.params && 'joinedQuestionId' in route.params ? route.params.joinedQuestionId : undefined;
+  const questionPaperId = route.params && 'questionPaperId' in route.params ? route.params.questionPaperId : undefined;
   const [questions, setQuestions] = useState<any[]>([]);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [selectedAnswer, setSelectedAnswer] = useState<string | null>(null);
@@ -37,6 +42,8 @@ const TestInterface = () => {
   const [userAnswers, setUserAnswers] = useState<{ [key: number]: string }>({});
   const [isInitialized, setIsInitialized] = useState(false);
   const [testStartTime, setTestStartTime] = useState<number | null>(null);
+  const [showSuccessModal, setShowSuccessModal] = useState(false);
+  const [successData, setSuccessData] = useState<any>(null);
 
   const timerRef = useRef<NodeJS.Timeout | null>(null);
   const lastSaveTimeRef = useRef<number>(Date.now());
@@ -119,9 +126,10 @@ const TestInterface = () => {
   const initializeTest = async () => {
     try {
       // First load questions
-      const response = await quizService.getQuestions('practice_paper');
-      if (response.questions) {
-        setQuestions(response.questions);
+      const response = await quizService.getQuestions(joinedQuestionId as string);
+      console.log("response in test interface", response);
+      if (response.allQuestionDetails) {
+        setQuestions(response.allQuestionDetails);
 
         // Then load saved state
         await loadSavedState();
@@ -316,68 +324,50 @@ const TestInterface = () => {
                 clearInterval(timerRef.current);
               }
 
-              // Debug: Check if token exists before submitting
-              const currentToken = await tokenUtils.getToken();
-              if (!currentToken) {
-                Alert.alert(
-                  'Authentication Error',
-                  'No authentication token found. Please login again.',
-                  [{ text: 'OK' }]
-                );
-                return;
-              }
-              console.log('Token available for submission:', currentToken ? 'Yes' : 'No');
+              // Calculate test completion time
+              const testEndTime = Date.now();
+              const totalTestTime = testStartTime ? Math.floor((testEndTime - testStartTime) / 1000) : 0;
 
               // Format answers for submission
               const formattedAnswers = Object.entries(userAnswers).map(([index, optionText]) => {
                 const questionIndex = parseInt(index);
                 const question = questions[questionIndex];
                 return {
-                  questionId: question._id, // Use the _id from the question
-                  answer: optionText // Send the actual option text (like "rat", "Delhi")
+                  questionId: question._id,
+                  answer: optionText
                 };
               });
+              console.log("formattedAnswers in test interface",JSON.stringify(joinedQuestionId, null, 2) );
 
-              console.log('Submitting answers:', formattedAnswers);
-
-              // Submit answers to validate endpoint
-              const response = await quizService.validateAnswers({
+              // Submit test with new format
+              const response = await quizService.submitTest({
+                questionPaperId: questionPaperId as string,
+                timeTaken: totalTestTime,
                 userAnswers: formattedAnswers
               });
-
-              console.log('Validation response:', response);
-
-              // Calculate test completion time
-              const testEndTime = Date.now();
-              const totalTestTime = testStartTime ? testEndTime - testStartTime : 0;
-              const timeTakenFormatted = formatTime(Math.floor(totalTestTime / 1000));
+              console.log("body in test interface", {
+      
+                questionPaperId: joinedQuestionId as string,
+                timeTaken: totalTestTime,
+                userAnswers: formattedAnswers
+              }
+              );
+              console.log("response in test interface", response);
 
               // Clear saved state
               await AsyncStorage.removeItem(TEST_STATE_KEY);
 
-              // Show success modal first
-              Alert.alert(
-                'Test Submission Successful',
-                `Review your test score on next screen.\n\nCorrect: ${response.results.filter(r => r.isCorrect).length}\nAttempted: ${response.results.length}`,
-                [
-                  {
-                    text: 'VIEW RESULT',
-                    onPress: () => {
-                      // Navigate to results screen with data
-                      navigation.navigate('TestResults', {
-                        results: response.results,
-                        totalQuestions: questions.length,
-                        timeTaken: timeTakenFormatted,
-                        testTitle: 'SAT Practice Test 1'
-                      });
-                    }
-                  }
-                ]
-              );
+              // Set success data and show modal
+              setSuccessData({
+                results: response.results,
+                totalQuestions: questions.length,
+                timeTaken: formatTime(totalTestTime),
+                testTitle: 'SAT Practice Test 1'
+              });
+              setShowSuccessModal(true);
+
             } catch (error: any) {
               console.error('Error submitting test:', error);
-
-              // More detailed error handling
               if (error.response?.status === 401) {
                 Alert.alert(
                   'Authentication Error',
@@ -636,6 +626,36 @@ const TestInterface = () => {
             <Text style={styles.submitButtonText}>SUBMIT TEST</Text>
           </TouchableOpacity>
         </View>
+
+        {/* Success Modal */}
+        <Modal
+          visible={showSuccessModal}
+          transparent
+          animationType="fade"
+        >
+          <View style={styles.modalOverlay}>
+            <View style={styles.modalContent}>
+              <View style={styles.successIconContainer}>
+                <Icon name="checkmark" size={30} color="#4CAF50" />
+              </View>
+              <Text style={styles.modalTitle}>Test Submission Successful</Text>
+              <Text style={styles.modalSubtitle}>
+                Review your test score on next screen.{'\n'}
+                Click "VIEW RESULT" button to explore.
+              </Text>
+              <TouchableOpacity
+                style={styles.viewResultButton}
+                onPress={() => {
+                  setShowSuccessModal(false);
+                  navigation.navigate('TestResults', successData);
+                }}
+              >
+                <Text style={styles.viewResultButtonText}>VIEW RESULT</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+        </Modal>
+
       </SafeAreaView>
     </LinearGradient>
   );
@@ -878,6 +898,52 @@ const styles = StyleSheet.create({
   },
   navButtonDisabled: {
     opacity: 0.5,
+  },
+  modalOverlay: {
+    flex: 1,
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  modalContent: {
+    backgroundColor: 'white',
+    borderRadius: 20,
+    padding: 20,
+    alignItems: 'center',
+    width: '80%',
+  },
+  successIconContainer: {
+    width: 60,
+    height: 60,
+    borderRadius: 30,
+    backgroundColor: '#E8F5E9',
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginBottom: 15,
+  },
+  modalTitle: {
+    fontSize: 20,
+    fontWeight: '600',
+    color: '#000000',
+    marginBottom: 8,
+    textAlign: 'center',
+  },
+  modalSubtitle: {
+    fontSize: 14,
+    color: '#666666',
+    textAlign: 'center',
+    marginBottom: 20,
+  },
+  viewResultButton: {
+    backgroundColor: '#4CAF50',
+    paddingVertical: 12,
+    paddingHorizontal: 24,
+    borderRadius: 8,
+  },
+  viewResultButtonText: {
+    color: 'white',
+    fontSize: 16,
+    fontWeight: '600',
   },
 });
 

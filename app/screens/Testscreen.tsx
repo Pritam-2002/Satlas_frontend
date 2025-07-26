@@ -6,6 +6,7 @@ import {
   ScrollView,
   TouchableOpacity,
 } from 'react-native';
+import { useState, useEffect } from 'react';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import Icon from 'react-native-vector-icons/Ionicons';
 import { RFValue } from 'react-native-responsive-fontsize';
@@ -13,6 +14,8 @@ import { LinearGradient } from 'expo-linear-gradient';
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { HomeStackParamList } from '../navigation/HomestackNavigator';
+import { QuestionPaper } from '../types/question';
+import quizService from '../services/quizService';
 
 // Test Card Component matching Figma design
 const TestCard = ({ title, subject, level, duration, status, onPress }: {
@@ -66,10 +69,28 @@ const TestCard = ({ title, subject, level, duration, status, onPress }: {
 
 const TestScreen = () => {
   const navigation = useNavigation<NativeStackNavigationProp<HomeStackParamList>>();
+  const [questionPaper, setQuestionPaper] = useState<QuestionPaper[]>([]);
+  const [questionId, setQuestionId] = useState<string[]>([]);
 
+  useEffect(() => {
+    const fetchQuestionPaper = async () => {
+      const questionPaper = await quizService.getQuestionPaper();
+
+      setQuestionPaper(questionPaper.result);
+      console.log("questionPaper in testt", questionPaper.result);
+      const allQuestionIds = questionPaper.result.flatMap(paper => paper.questionsID);
+       setQuestionId(allQuestionIds);
+      console.log("allQuestionIds in test screen", allQuestionIds);
+    };
+    fetchQuestionPaper();
+    console.log("questionPaper in test screen", questionPaper);
+  }, []);
   const handleTestPress = (testId: string) => {
-    navigation.navigate('TestInterface');
+    const joinedQuestionId = questionId.join(',');
+    navigation.navigate('TestInterface', { joinedQuestionId, questionPaperId: testId });
   };
+
+  const filteredQuestionPaper = questionPaper.filter((test) => test.type.includes('practice'));
 
   return (
     <LinearGradient
@@ -152,41 +173,17 @@ const TestScreen = () => {
         <ScrollView style={styles.scrollView} showsVerticalScrollIndicator={false}>
           {/* Test Cards */}
           <View style={styles.testsContainer}>
+          {filteredQuestionPaper.map((test) => (
             <TestCard
-              title="SAT Practice Test 1"
-              subject="Math & English"
-              level="Level 1"
-              duration="00:42:21"
-              status="completed"
-              onPress={() => handleTestPress('test1')}
+              key={test._id}
+              title={test.title}
+              subject={test.subject}
+              level={test.level}
+              duration={test.estimatedDuration.toString()}
+              status={test.status as 'completed' | 'available' | 'locked'}
+              onPress={() => handleTestPress(test._id)}
             />
-
-            <TestCard
-              title="SAT Practice Test 2"
-              subject="Math & English"
-              level="Level 1"
-              duration="00:58:48"
-              status="completed"
-              onPress={() => handleTestPress('test2')}
-            />
-
-            <TestCard
-              title="SAT Practice Test 3"
-              subject="Math & English"
-              level="Level 2"
-              duration="00:00:00"
-              status="available"
-              onPress={() => handleTestPress('test3')}
-            />
-
-            <TestCard
-              title="SAT Practice Test 4"
-              subject="Math & English"
-              level="Level 2"
-              duration="00:00:00"
-              status="locked"
-              onPress={() => handleTestPress('test4')}
-            />
+          ))}
           </View>
         </ScrollView>
       </SafeAreaView>

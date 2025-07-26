@@ -13,7 +13,7 @@ export interface Question {
 }
 
 export interface QuizResponse {
-  questions: Question[];
+  allQuestionDetails: Question[];
   totalQuestions: number;
 }
 
@@ -28,6 +28,26 @@ export interface MultipleAnswerValidationRequest {
   }>;
 }
 
+export interface QuestionPaper {
+  _id: string;
+  title: string;
+  type: string;
+  subject: string;
+  level: string;
+  status: string;
+  estimatedDuration: number;
+  questionsCount: number;
+  questionsID: string[];
+  createdAt: string;
+  __v: number;
+}
+
+export interface QuestionPaperResponse {
+  message: string;
+  result: QuestionPaper[];
+}
+
+
 export interface AnswerValidationResponse {
   questionId: string;
   isCorrect: boolean;
@@ -41,11 +61,22 @@ export interface MultipleAnswerValidationResponse {
   results: AnswerValidationResponse[];
 }
 
+export interface TestSubmissionRequest {
+  questionPaperId: string;
+  timeTaken: number;
+  userAnswers: Array<{
+    questionId: string;
+    answer: string;
+  }>;
+}
+
 export const questionService = {
   // Get all questions for daily quiz
-  getQuestions: async (type: string = 'quiz'): Promise<QuizResponse> => {
+  getQuestions: async (questionId: string ): Promise<QuizResponse> => {
     try {
-      const response = await apiClient.get(`/questions/getquestions?type=${type}`);
+      console.log("questionId in getQuestions", questionId);
+      const response = await apiClient.get(`/questions/getquestions?rawquestionIds=${questionId}`);
+      console.log("response in getQuestions", response.data);
       console.log(response.data);
 
       return response.data;
@@ -78,6 +109,31 @@ export const questionService = {
       // The authentication token will be automatically added by the axios interceptor
       const response = await apiClient.post('/questions/validateanswer', data);
       console.log(response.data);
+      return response.data;
+    } catch (error) {
+      throw error;
+    }
+  },
+
+  // Submit test answers
+  submitTest: async (data: TestSubmissionRequest): Promise<MultipleAnswerValidationResponse> => {
+    try {
+      const token = await tokenUtils.getToken();
+      const response = await apiClient.post('/questions/ValidateAnswer', data, {
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      });
+      return response.data;
+    } catch (error) {
+      throw error;
+    }
+  },
+
+  getQuestionPaper: async (): Promise<QuestionPaperResponse> => {
+    try {
+      const response = await apiClient.get('/questionpaper/getquestionpaper');
+      console.log("questionPaper in quizService", response.data);
       return response.data;
     } catch (error) {
       throw error;
