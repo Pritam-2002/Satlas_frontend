@@ -28,41 +28,43 @@ const TestCard = ({ title, subject, level, duration, status, onPress }: {
 }) => {
   return (
     <TouchableOpacity style={styles.testCard} onPress={onPress}>
-      <View style={styles.cardContent}>
-        {/* Subject badge */}
-        <View style={styles.subjectBadge}>
-          <Text style={styles.subjectText}>{subject}</Text>
+      {/* Left side - Icon and main content */}
+      <View style={styles.cardLeftContent}>
+        {/* Clipboard Icon */}
+        <View style={styles.clipboardIcon}>
+          <Icon name="clipboard" size={24} color="#5C5C99" />
         </View>
-
-        {/* Level badge */}
-        <View style={[styles.levelBadge, level === 'Level 2' && styles.levelBadge2]}>
-          <Text style={styles.levelText}>{level}</Text>
-        </View>
-
-        {/* Duration */}
-        <Text style={styles.durationText}>{duration}</Text>
-
-        {/* Title */}
-        <Text style={styles.testTitle}>{title}</Text>
-      </View>
-
-      {/* Status icon */}
-      <View style={styles.statusIconContainer}>
-        {status === 'completed' ? (
-          <View style={styles.completedIcon}>
-            <Icon name="checkmark" size={12} color="#FFFFFF" />
+        
+        {/* Main content */}
+        <View style={styles.mainContent}>
+          <Text style={styles.testTitle}>{title}</Text>
+          
+          {/* Badges row */}
+          <View style={styles.badgesRow}>
+            <View style={[styles.levelBadge, level === 'Level 2' && styles.levelBadge2]}>
+              <Text style={styles.levelText}>{level}</Text>
+            </View>
+            <View style={styles.subjectBadge}>
+              <Text style={styles.subjectText}>{subject}</Text>
+            </View>
           </View>
-        ) : status === 'available' ? (
-          <Icon name="play" size={16} color="#5767CE" />
-        ) : (
-          <Icon name="lock-closed" size={16} color="#ED7979" />
-        )}
+        </View>
       </View>
 
-      {/* Book icon */}
-      <View style={styles.bookIcon}>
-        <Icon name="book" size={18} color="#5767CE" />
+      {/* Right side - Duration and trophy */}
+      <View style={styles.cardRightContent}>
+        <Text style={styles.durationText}>{duration}</Text>
+        <View style={styles.trophyIcon}>
+          <Icon name="trophy" size={20} color="#339657" />
+        </View>
       </View>
+
+      {/* Status indicator - top right corner */}
+      {status === 'completed' && (
+        <View style={styles.statusIndicator}>
+          <Icon name="checkmark" size={12} color="#FFFFFF" />
+        </View>
+      )}
     </TouchableOpacity>
   );
 };
@@ -338,80 +340,109 @@ const styles = StyleSheet.create({
   testCard: {
     backgroundColor: '#F4F7FA',
     borderRadius: 12,
-    padding: 16,
-    height: 90,
+    padding: 20,
+    minHeight: 100,
     flexDirection: 'row',
     alignItems: 'center',
+    justifyContent: 'space-between',
     position: 'relative',
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.1,
+    shadowRadius: 3.84,
+    elevation: 2,
   },
-  cardContent: {
+  cardLeftContent: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 16,
     flex: 1,
+  },
+  clipboardIcon: {
+    width: 48,
+    height: 48,
+    backgroundColor: '#F0F0F0',
+    borderRadius: 12,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  mainContent: {
+    flex: 1,
+  },
+  badgesRow: {
+    flexDirection: 'row',
+    gap: 8,
+    marginTop: 8,
   },
   subjectBadge: {
     backgroundColor: '#F1E2FF',
     borderRadius: 6,
-    paddingVertical: 5,
+    paddingVertical: 4,
     paddingHorizontal: 8,
     alignSelf: 'flex-start',
-    marginBottom: 8,
   },
   subjectText: {
-    fontSize: 12,
-    fontWeight: '400',
-    color: '#9B51E0',
+    fontSize: 11,
+    fontWeight: '500',
+    color: '#8A2BE2',
     fontFamily: 'Rubik',
   },
   levelBadge: {
-    backgroundColor: '#FFEFF1',
+    backgroundColor: '#FEE8E8',
     borderRadius: 6,
-    paddingVertical: 5,
+    paddingVertical: 4,
     paddingHorizontal: 8,
-    position: 'absolute',
-    top: 0,
-    left: 110,
+    alignSelf: 'flex-start',
   },
   levelBadge2: {
     backgroundColor: '#FFD4DA',
   },
   levelText: {
-    fontSize: 12,
-    fontWeight: '400',
-    color: '#FD5B71',
+    fontSize: 11,
+    fontWeight: '500',
+    color: '#FF6B6B',
     fontFamily: 'Rubik',
   },
-  durationText: {
-    fontSize: 12,
-    fontWeight: '400',
-    color: '#4F4F4F',
-    fontFamily: 'Poppins',
-    position: 'absolute',
-    top: 0,
-    right: 0,
-  },
   testTitle: {
+    fontSize: 18,
+    fontWeight: '700',
+    color: '#000000',
+    fontFamily: 'Inter',
+    lineHeight: 24,
+  },
+  cardRightContent: {
+    alignItems: 'flex-end',
+    gap: 8,
+  },
+  durationText: {
     fontSize: 14,
     fontWeight: '500',
-    color: '#000000',
+    color: '#6B6B6B',
     fontFamily: 'Poppins',
-    marginTop: 32,
   },
-  statusIconContainer: {
-    position: 'absolute',
-    top: 16,
-    right: 16,
-  },
-  completedIcon: {
-    width: 17,
-    height: 17,
-    backgroundColor: '#07E092',
+  trophyIcon: {
+    width: 32,
+    height: 32,
+    backgroundColor: '#F0F8F0',
     borderRadius: 8,
     alignItems: 'center',
     justifyContent: 'center',
   },
-  bookIcon: {
+  statusIndicator: {
     position: 'absolute',
-    bottom: 16,
-    left: 28,
+    top: -8,
+    right: -8,
+    width: 24,
+    height: 24,
+    backgroundColor: '#339657',
+    borderRadius: 12,
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderWidth: 2,
+    borderColor: '#FFFFFF',
   },
 });
 

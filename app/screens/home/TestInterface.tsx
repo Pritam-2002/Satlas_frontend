@@ -635,9 +635,8 @@ const TestInterface = () => {
         >
           <View style={styles.modalOverlay}>
             <View style={styles.modalContent}>
-              <View style={styles.successIconContainer}>
-                <Icon name="checkmark" size={30} color="#4CAF50" />
-              </View>
+             
+              <Image source={require('../../../assets/illustration.png')}   />
               <Text style={styles.modalTitle}>Test Submission Successful</Text>
               <Text style={styles.modalSubtitle}>
                 Review your test score on next screen.{'\n'}
@@ -935,7 +934,7 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   viewResultButton: {
-    backgroundColor: '#4CAF50',
+    backgroundColor: '#376AED',
     paddingVertical: 12,
     paddingHorizontal: 24,
     borderRadius: 8,
