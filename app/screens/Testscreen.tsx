@@ -53,7 +53,7 @@ const TestCard = ({ title, subject, level, duration, status, onPress }: {
 
       {/* Right side - Duration and trophy */}
       <View style={styles.cardRightContent}>
-        <Text style={styles.durationText}>{duration}</Text>
+        {/* <Text style={styles.durationText}>{duration}</Text> */}
         <View style={styles.trophyIcon}>
           <Icon name="trophy" size={20} color="#339657" />
         </View>
@@ -77,6 +77,8 @@ const TestScreen = () => {
   useEffect(() => {
     const fetchQuestionPaper = async () => {
       const questionPaper = await quizService.getQuestionPaper();
+      console.log("questionPaper in test screen", questionPaper);
+      
 
       setQuestionPaper(questionPaper.result);
       console.log("questionPaper in testt", questionPaper.result);

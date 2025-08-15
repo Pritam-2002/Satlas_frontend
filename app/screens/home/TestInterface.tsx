@@ -340,7 +340,7 @@ const TestInterface = () => {
               console.log("formattedAnswers in test interface",JSON.stringify(joinedQuestionId, null, 2) );
 
               // Submit test with new format
-              const response = await quizService.submitTest({
+              const response = await quizService.validateAnswers({
                 questionPaperId: questionPaperId as string,
                 timeTaken: totalTestTime,
                 userAnswers: formattedAnswers
@@ -539,14 +539,7 @@ const TestInterface = () => {
       <SafeAreaView style={styles.safeArea}>
         {/* Header */}
         <View style={styles.header}>
-          <TouchableOpacity
-            onPress={async () => {
-              await saveCurrentState();
-              navigation.goBack();
-            }}
-          >
-            <Icon name="menu" size={20} color="#000000" />
-          </TouchableOpacity>
+         
 
           <Text style={styles.headerTitle}>SAT Practice Test 1</Text>
 
@@ -679,7 +672,7 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: '700',
     color: '#FFFFFF',
-    marginLeft: -100,
+    marginLeft: 20,
     fontFamily: 'Inter',
   },
   timerContainer: {

@@ -12,19 +12,21 @@ import {
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { useNavigation } from '@react-navigation/native';
 import YoutubePlayer from 'react-native-youtube-iframe';
-import { questionService, Question, AnswerValidationResponse } from '../../services/quizService';
+import { questionService, Question, AnswerValidationResponse, QuestionPaper } from '../../services/quizService';
 
 const { width } = Dimensions.get('window');
 
 const DailyQuizScreen: React.FC = () => {
   const navigation = useNavigation();
   const [question, setQuestion] = useState<Question | null>(null);
+  const [questionPaper, setQuestionPaper] = useState<QuestionPaper[]>([]);
   const [selectedAnswer, setSelectedAnswer] = useState<string>('');
   const [loading, setLoading] = useState(true);
   const [submitting, setSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
   const [solution, setSolution] = useState<AnswerValidationResponse | null>(null);
   const [playing, setPlaying] = useState(false);
+  const [testStartTime, setTestStartTime] = useState<number | null>(null);
 
   // Load questions on component mount
   useEffect(() => {
@@ -34,11 +36,22 @@ const DailyQuizScreen: React.FC = () => {
   const loadQuestion = async () => {
     try {
       setLoading(true);
-      const response = await questionService.getQuestions('quiz');
-      // Get the first question since it's a single question quiz
-      if (response.questions && response.questions.length > 0) {
-        setQuestion(response.questions[0]);
-      }
+      const response = await questionService.getQuestionPaper();
+      console.log("response in loadQuestion", response);
+      setQuestionPaper(response.result);
+      
+      // Use the response directly instead of state (since state updates are asynchronous)
+      const allQuestionIds = response.result.flatMap((paper: QuestionPaper) => paper.questionsID);
+      console.log("allQuestionIds in loadQuestion", allQuestionIds);
+      
+      // Get the first question ID to show only the first question
+      const firstQuestionId = allQuestionIds[0];
+      const res = await questionService.getQuestions(firstQuestionId);
+      console.log("res in loadQuestion", res);
+      setQuestion(res.allQuestionDetails[0]);
+      
+      // Start timer when question is loaded
+      setTestStartTime(Date.now());
     } catch (error) {
       Alert.alert('Error', 'Failed to load question. Please try again.');
       console.error('Failed to load question:', error);
@@ -66,7 +79,37 @@ const DailyQuizScreen: React.FC = () => {
 
     try {
       setSubmitting(true);
-      const validation = await questionService.validateAnswer(question._id, selectedAnswer);
+      
+      // Calculate time taken
+      const testEndTime = Date.now();
+      const timeTaken = testStartTime ? Math.floor((testEndTime - testStartTime) / 1000) : 0;
+      
+      // Get the questionPaper ID (use the first one since we're showing first question)
+      const questionPaperId = questionPaper.length > 0 ? questionPaper[0]._id : '';
+      
+      // Format answer for submission using the same structure as TestInterface
+      const formattedAnswers = [{
+        questionId: question._id,
+        answer: selectedAnswer
+      }];
+      
+      console.log("Submitting daily quiz answer:", {
+        questionPaperId: questionPaperId,
+        timeTaken: timeTaken,
+        userAnswers: formattedAnswers
+      });
+      
+      // Submit using validateAnswers method like TestInterface
+      const response = await questionService.validateAnswers({
+        questionPaperId: questionPaperId,
+        timeTaken: timeTaken,
+        userAnswers: formattedAnswers
+      });
+      
+      console.log("Daily quiz response:", response);
+      
+      // Get the first result (since we only submitted one answer)
+      const validation = response.results[0];
       setSolution(validation);
       setSubmitted(true);
     } catch (error) {

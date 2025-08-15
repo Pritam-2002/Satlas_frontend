@@ -2,7 +2,7 @@ import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 // Create axios instance with base URL
-const API_URL = "http://10.231.168.82:8000/api";
+const API_URL = "https://satlas-backend.onrender.com/api";
 
 
 const apiClient = axios.create({

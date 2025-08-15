@@ -6,7 +6,7 @@
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
-    "newArchEnabled": true,
+    "newArchEnabled": false,
     "splash": {
       "image": "./assets/splash-icon.png",
       "resizeMode": "contain",
@@ -19,7 +19,8 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "package": "com.farhanmuzaffar.SatlasApp"
     },
     "web": {
       "favicon": "./assets/favicon.png"
@@ -36,6 +37,11 @@
       "Poppins-Medium": "./assets/fonts/Poppins-Medium.ttf",
       "Poppins-SemiBold": "./assets/fonts/Poppins-SemiBold.ttf",
       "Poppins-Bold": "./assets/fonts/Poppins-Bold.ttf"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "83be229f-8e44-4996-bd75-5a9b9f79e684"
+      }
     }
   }
 }

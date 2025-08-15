@@ -22,6 +22,8 @@ export interface AnswerValidationRequest {
 }
 
 export interface MultipleAnswerValidationRequest {
+  questionPaperId?: string;
+  timeTaken?: number;
   userAnswers: Array<{
     questionId: string;
     answer: string;
@@ -59,15 +61,6 @@ export interface AnswerValidationResponse {
 
 export interface MultipleAnswerValidationResponse {
   results: AnswerValidationResponse[];
-}
-
-export interface TestSubmissionRequest {
-  questionPaperId: string;
-  timeTaken: number;
-  userAnswers: Array<{
-    questionId: string;
-    answer: string;
-  }>;
 }
 
 export const questionService = {
@@ -109,21 +102,6 @@ export const questionService = {
       // The authentication token will be automatically added by the axios interceptor
       const response = await apiClient.post('/questions/validateanswer', data);
       console.log(response.data);
-      return response.data;
-    } catch (error) {
-      throw error;
-    }
-  },
-
-  // Submit test answers
-  submitTest: async (data: TestSubmissionRequest): Promise<MultipleAnswerValidationResponse> => {
-    try {
-      const token = await tokenUtils.getToken();
-      const response = await apiClient.post('/questions/ValidateAnswer', data, {
-        headers: {
-          'Authorization': `Bearer ${token}`
-        }
-      });
       return response.data;
     } catch (error) {
       throw error;
