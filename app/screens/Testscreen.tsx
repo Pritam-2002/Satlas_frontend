@@ -16,58 +16,9 @@ import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { HomeStackParamList } from '../navigation/HomestackNavigator';
 import { QuestionPaper } from '../types/question';
 import quizService from '../services/quizService';
+import TestCard from '../components/common/TestCard';
 
-// Test Card Component matching Figma design
-const TestCard = ({ title, subject, level, duration, status, onPress }: {
-  title: string;
-  subject: string;
-  level: string;
-  duration: string;
-  status: 'completed' | 'available' | 'locked';
-  onPress: () => void;
-}) => {
-  return (
-    <TouchableOpacity style={styles.testCard} onPress={onPress}>
-      {/* Left side - Icon and main content */}
-      <View style={styles.cardLeftContent}>
-        {/* Clipboard Icon */}
-        <View style={styles.clipboardIcon}>
-          <Icon name="clipboard" size={24} color="#5C5C99" />
-        </View>
-        
-        {/* Main content */}
-        <View style={styles.mainContent}>
-          <Text style={styles.testTitle}>{title}</Text>
-          
-          {/* Badges row */}
-          <View style={styles.badgesRow}>
-            <View style={[styles.levelBadge, level === 'Level 2' && styles.levelBadge2]}>
-              <Text style={styles.levelText}>{level}</Text>
-            </View>
-            <View style={styles.subjectBadge}>
-              <Text style={styles.subjectText}>{subject}</Text>
-            </View>
-          </View>
-        </View>
-      </View>
 
-      {/* Right side - Duration and trophy */}
-      <View style={styles.cardRightContent}>
-        {/* <Text style={styles.durationText}>{duration}</Text> */}
-        <View style={styles.trophyIcon}>
-          <Icon name="trophy" size={20} color="#339657" />
-        </View>
-      </View>
-
-      {/* Status indicator - top right corner */}
-      {status === 'completed' && (
-        <View style={styles.statusIndicator}>
-          <Icon name="checkmark" size={12} color="#FFFFFF" />
-        </View>
-      )}
-    </TouchableOpacity>
-  );
-};
 
 const TestScreen = () => {
   const navigation = useNavigation<NativeStackNavigationProp<HomeStackParamList>>();
@@ -177,10 +128,10 @@ const TestScreen = () => {
         <ScrollView style={styles.scrollView} showsVerticalScrollIndicator={false}>
           {/* Test Cards */}
           <View style={styles.testsContainer}>
-          {filteredQuestionPaper.map((test) => (
+          {filteredQuestionPaper.map((test, index) => (
             <TestCard
               key={test._id}
-              title={test.title}
+              title={`SAT Practice Test ${index + 1}`}
               subject={test.subject}
               level={test.level}
               duration={test.estimatedDuration.toString()}
@@ -339,113 +290,7 @@ const styles = StyleSheet.create({
     gap: 13,
     paddingBottom: 100,
   },
-  testCard: {
-    backgroundColor: '#F4F7FA',
-    borderRadius: 12,
-    padding: 20,
-    minHeight: 100,
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    position: 'relative',
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.1,
-    shadowRadius: 3.84,
-    elevation: 2,
-  },
-  cardLeftContent: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 16,
-    flex: 1,
-  },
-  clipboardIcon: {
-    width: 48,
-    height: 48,
-    backgroundColor: '#F0F0F0',
-    borderRadius: 12,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  mainContent: {
-    flex: 1,
-  },
-  badgesRow: {
-    flexDirection: 'row',
-    gap: 8,
-    marginTop: 8,
-  },
-  subjectBadge: {
-    backgroundColor: '#F1E2FF',
-    borderRadius: 6,
-    paddingVertical: 4,
-    paddingHorizontal: 8,
-    alignSelf: 'flex-start',
-  },
-  subjectText: {
-    fontSize: 11,
-    fontWeight: '500',
-    color: '#8A2BE2',
-    fontFamily: 'Rubik',
-  },
-  levelBadge: {
-    backgroundColor: '#FEE8E8',
-    borderRadius: 6,
-    paddingVertical: 4,
-    paddingHorizontal: 8,
-    alignSelf: 'flex-start',
-  },
-  levelBadge2: {
-    backgroundColor: '#FFD4DA',
-  },
-  levelText: {
-    fontSize: 11,
-    fontWeight: '500',
-    color: '#FF6B6B',
-    fontFamily: 'Rubik',
-  },
-  testTitle: {
-    fontSize: 18,
-    fontWeight: '700',
-    color: '#000000',
-    fontFamily: 'Inter',
-    lineHeight: 24,
-  },
-  cardRightContent: {
-    alignItems: 'flex-end',
-    gap: 8,
-  },
-  durationText: {
-    fontSize: 14,
-    fontWeight: '500',
-    color: '#6B6B6B',
-    fontFamily: 'Poppins',
-  },
-  trophyIcon: {
-    width: 32,
-    height: 32,
-    backgroundColor: '#F0F8F0',
-    borderRadius: 8,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  statusIndicator: {
-    position: 'absolute',
-    top: -8,
-    right: -8,
-    width: 24,
-    height: 24,
-    backgroundColor: '#339657',
-    borderRadius: 12,
-    alignItems: 'center',
-    justifyContent: 'center',
-    borderWidth: 2,
-    borderColor: '#FFFFFF',
-  },
+
 });
 
-export default TestScreen; 
+export default TestScreen;

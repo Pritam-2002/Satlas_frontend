@@ -2,6 +2,7 @@ import React from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, Platform, Image } from 'react-native';
 import { BottomTabBarProps } from '@react-navigation/bottom-tabs';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import Icon from 'react-native-vector-icons/Ionicons';
 
 const TabBar: React.FC<BottomTabBarProps> = ({ state, descriptors, navigation }) => {
   const insets = useSafeAreaInsets();
@@ -44,7 +45,7 @@ const TabBar: React.FC<BottomTabBarProps> = ({ state, descriptors, navigation })
               style={styles.addButton}
             >
               <View style={styles.addButtonInner}>
-                <Text style={styles.plusIcon}>+</Text>
+                <Icon name="add" size={28} color="#FFFFFF" />
               </View>
             </TouchableOpacity>
           );
@@ -56,25 +57,41 @@ const TabBar: React.FC<BottomTabBarProps> = ({ state, descriptors, navigation })
             case 'Home':
               return (
                 <View style={styles.iconContainer}>
-                  <Text style={[styles.icon, isFocused && styles.activeIcon]}>🏠</Text>
+                  <Icon 
+                    name={isFocused ? "home" : "home-outline"} 
+                    size={22} 
+                    color={isFocused ? "#0047CC" : "#7B8BB2"} 
+                  />
                 </View>
               );
             case 'Books':
               return (
                 <View style={styles.iconContainer}>
-                  <Text style={[styles.icon, isFocused && styles.activeIcon]}>📚</Text>
+                  <Icon 
+                    name={isFocused ? "library" : "library-outline"} 
+                    size={22} 
+                    color={isFocused ? "#0047CC" : "#7B8BB2"} 
+                  />
                 </View>
               );
             case 'Search':
               return (
                 <View style={styles.iconContainer}>
-                  <Text style={[styles.icon, isFocused && styles.activeIcon]}>🔍</Text>
+                  <Icon 
+                    name={isFocused ? "search" : "search-outline"} 
+                    size={22} 
+                    color={isFocused ? "#0047CC" : "#7B8BB2"} 
+                  />
                 </View>
               );
             case 'Menu':
               return (
                 <View style={styles.iconContainer}>
-                  <Text style={[styles.icon, isFocused && styles.activeIcon]}>≡</Text>
+                  <Icon 
+                    name={isFocused ? "menu" : "menu-outline"} 
+                    size={22} 
+                    color={isFocused ? "#0047CC" : "#7B8BB2"} 
+                  />
                 </View>
               );
             default:
@@ -130,13 +147,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
-  icon: {
-    fontSize: 20,
-    color: '#7B8BB2',
-  },
-  activeIcon: {
-    color: '#0047CC',
-  },
+
   label: {
     fontSize: 10,
     marginTop: 5,
@@ -161,7 +172,7 @@ const styles = StyleSheet.create({
   addButton: {
     justifyContent: 'center',
     alignItems: 'center',
-    marginTop: -15,
+    marginTop: -55,
   },
   addButtonInner: {
     width: 48,
@@ -176,11 +187,7 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.2,
     shadowRadius: 5,
   },
-  plusIcon: {
-    fontSize: 24,
-    color: '#FFFFFF',
-    fontWeight: 'bold',
-  }
+
 });
 
 export default TabBar; 

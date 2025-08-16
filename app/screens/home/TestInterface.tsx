@@ -539,9 +539,13 @@ const TestInterface = () => {
       <SafeAreaView style={styles.safeArea}>
         {/* Header */}
         <View style={styles.header}>
-         
+          <View style={styles.headerLeft}>
+         <TouchableOpacity onPress={() => navigation.goBack()}>
+          <Icon name="arrow-back" size={24} color="#FFFFFF" />
+         </TouchableOpacity>
 
           <Text style={styles.headerTitle}>SAT Practice Test 1</Text>
+          </View>
 
           {/* Timer */}
           <View style={styles.timerContainer}>
@@ -668,11 +672,16 @@ const styles = StyleSheet.create({
     paddingTop: 15,
     paddingBottom: 15,
   },
+  headerLeft: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 10,
+  },
   headerTitle: {
     fontSize: 18,
     fontWeight: '700',
     color: '#FFFFFF',
-    marginLeft: 20,
+    
     fontFamily: 'Inter',
   },
   timerContainer: {

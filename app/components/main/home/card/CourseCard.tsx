@@ -1,6 +1,6 @@
 import NoteEditIcon from 'assets/icons/home/Note-editIcon/NoteEditicon';
 import React from 'react';
-import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet, Pressable } from 'react-native';
 import { ProgressBar } from 'react-native-paper'; // or use a custom View
 
 type PracticeCardProps = {
@@ -16,12 +16,12 @@ type PracticeCardProps = {
 
 const PracticeCard = ({ actionbtntext, cardTitle, cardTitle2, progressText, paperInfo, Progresspercentage, ProgressBarColor, onPress }: PracticeCardProps) => {
   return (
-    <View style={styles.card}>
+    <Pressable style={styles.card} onPress={onPress}>
       <View style={styles.topRow}>
         <View style={{ height: 35, width: 35, padding: 7, backgroundColor: "#dbe6ff", borderRadius: "50%" }}>
           <NoteEditIcon />
         </View>
-        <TouchableOpacity style={styles.startBtn} onPress={onPress}>
+        <TouchableOpacity style={styles.startBtn} >
           <Text style={styles.startText}>{actionbtntext}</Text>
         </TouchableOpacity>
       </View>
@@ -37,7 +37,7 @@ const PracticeCard = ({ actionbtntext, cardTitle, cardTitle2, progressText, pape
       </View>
 
       <Text style={styles.paperInfo}>{paperInfo}</Text>
-    </View>
+    </Pressable>
   );
 };
 

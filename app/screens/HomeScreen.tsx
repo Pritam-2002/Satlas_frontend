@@ -75,7 +75,7 @@ const Dashboard = () => {
 
 
             <View>
-              <Text style={{ fontWeight: "bold", fontSize: 16 }}>Free Practice</Text>
+              <Text style={styles.sectionTitle}>Free Practice</Text>
               <View style={{ height: 3, width: "30%", backgroundColor: "#612EF7", marginTop: 5, marginBottom: "5%" }} ></View>
 
               <PracticeCard
@@ -96,7 +96,7 @@ const Dashboard = () => {
 
 
             <View>
-              <Text style={{ fontWeight: "bold", fontSize: 16 }}>Courses</Text>
+              <Text style={styles.sectionTitle}>Courses</Text>
               <View style={{ height: 3, width: "30%", backgroundColor: "#34C759", marginTop: 5, marginBottom: "5%" }} ></View>
               <PracticeCard
                 actionbtntext={"View All"}
@@ -157,7 +157,6 @@ export default Dashboard;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-
     paddingHorizontal: 16,
   },
   header: {
@@ -173,11 +172,11 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     gap: 10,
-
   },
   title: {
     fontSize: RFValue(16),
     fontWeight: '600',
+    color: '#000000', // Added explicit black color
   },
   avatar: {
     height: 35,
@@ -189,14 +188,12 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     marginTop: 20,
   },
-
   gridItem: {
     flex: 1,
     alignItems: 'center',
     marginVertical: 10,
-    minWidth: '25%', // 4 items per row
+    minWidth: '25%',
   },
-
   banner: {
     backgroundColor: '#DDEAFE',
     borderRadius: 16,
@@ -212,6 +209,7 @@ const styles = StyleSheet.create({
   bannerSub: {
     fontSize: RFValue(14),
     marginTop: 4,
+    color: '#666666',
   },
   bannerImage: {
     height: 60,
@@ -228,11 +226,18 @@ const styles = StyleSheet.create({
   menuText: {
     fontSize: RFValue(10),
     marginTop: 4,
+    color: '#666666',
   },
   sectionRow: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     marginTop: 25,
+  },
+ 
+  sectionTitle: {
+    fontWeight: "bold",
+    fontSize: 16,
+    color: '#000000', 
   },
   card: {
     backgroundColor: '#fff',
@@ -244,10 +249,12 @@ const styles = StyleSheet.create({
   cardTitle: {
     fontSize: RFValue(12),
     fontWeight: '600',
+    color: '#000000',
   },
   cardSubtitle: {
     fontSize: RFValue(10),
     marginVertical: 6,
+    color: '#666666', 
   },
   startBtn: {
     backgroundColor: '#4A90E2',
@@ -286,6 +293,7 @@ const styles = StyleSheet.create({
   liveTitle: {
     fontSize: RFValue(14),
     fontWeight: '600',
+    color: '#000000',
   },
   viewAll: {
     color: '#fff',
@@ -302,5 +310,6 @@ const styles = StyleSheet.create({
   liveText: {
     fontSize: RFValue(10),
     marginTop: 4,
+    color: '#666666', 
   },
 });

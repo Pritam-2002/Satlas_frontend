@@ -11,6 +11,7 @@ interface Banner {
 
 const AutoSlider = () => {
   const [banners, setBanners] = useState<Banner[]>([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchBanners = async () => {
@@ -19,28 +20,41 @@ const AutoSlider = () => {
         setBanners(response.data);
       } catch (error) {
         console.error('Error fetching banners:', error);
+      } finally {
+        setLoading(false);
       }
     };
 
     fetchBanners();
   }, []);
 
+  // Don't render Swiper until banners are loaded
+  if (loading || banners.length === 0) {
+    return <View style={styles.container} />;
+  }
+
   return (
     <View style={styles.container}>
       <Swiper
-        autoplay
+        autoplay={true}
         autoplayTimeout={3}
         showsPagination={true}
         dotColor="#ccc"
         activeDotColor="#000"
+        paginationStyle={styles.pagination}
+        dotStyle={styles.dot}
+        activeDotStyle={styles.activeDot}
+        loop={true}
+        removeClippedSubviews={false}
       >
         {banners.map((banner) => (
-          <Image
-            key={banner._id}
-            source={{ uri: banner.url }}
-            style={styles.image}
-            resizeMode="stretch"
-          />
+          <View key={banner._id} style={styles.slide}>
+            <Image
+              source={{ uri: banner.url }}
+              style={styles.image}
+              resizeMode="cover"
+            />
+          </View>
         ))}
       </Swiper>
     </View>
@@ -49,12 +63,34 @@ const AutoSlider = () => {
 
 const styles = StyleSheet.create({
   container: {
-    height: 200, // Adjust height as needed
+    height: 200,
     marginVertical: 10,
+  },
+  slide: {
+    flex: 1,
   },
   image: {
     width: '100%',
     height: '100%',
+  },
+  pagination: {
+    bottom: 10,
+  },
+  dot: {
+    backgroundColor: '#ccc',
+    width: 8,
+    height: 8,
+    borderRadius: 4,
+    marginLeft: 3,
+    marginRight: 3,
+  },
+  activeDot: {
+    backgroundColor: '#000',
+    width: 8,
+    height: 8,
+    borderRadius: 4,
+    marginLeft: 3,
+    marginRight: 3,
   },
 });
 
