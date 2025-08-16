@@ -46,7 +46,7 @@ const Dashboard = () => {
           {/* Header */}
           <View style={styles.header}>
             <View style={styles.headerLeft}>
-              <Icon name="menu" size={24} color="#000" />
+             
               <Text style={styles.title}>SAT Dashboard</Text>
             </View>
 

@@ -120,6 +120,7 @@ const styles = StyleSheet.create({
   menuText: {
     fontSize: 12,
     textAlign: 'center',
+    color:"#000"
   },
 });
 

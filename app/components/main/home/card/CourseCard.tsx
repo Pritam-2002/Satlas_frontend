@@ -79,11 +79,13 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: 'bold',
     marginTop: 8,
+    color: '#000',
   },
   cardTitle2: {
     fontSize: 16,
     fontWeight: 'bold',
     marginTop: 1,
+    color:"#000"
   },
   progressWrapper: {
     marginTop: 12,
