@@ -2,6 +2,7 @@
   "expo": {
     "name": "SatlasApp",
     "slug": "SatlasApp",
+    "owner": "pritam2002",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -40,7 +41,7 @@
     },
     "extra": {
       "eas": {
-        "projectId": "83be229f-8e44-4996-bd75-5a9b9f79e684"
+        "projectId": "f0cb0a52-b126-41cc-8d0d-3e91fec1cdf0"
       }
     }
   }
