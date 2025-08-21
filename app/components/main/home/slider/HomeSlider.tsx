@@ -1,7 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { View, Image, StyleSheet, Dimensions } from 'react-native';
+import { View, Image, StyleSheet } from 'react-native';
 import Swiper from 'react-native-swiper';
 import apiClient from '../../../../utils/apiClient';
+import {
+  widthPercentageToDP as wp,
+  heightPercentageToDP as hp,
+} from 'react-native-responsive-screen';
 
 interface Banner {
   _id: string;
@@ -63,34 +67,34 @@ const AutoSlider = () => {
 
 const styles = StyleSheet.create({
   container: {
-    height: 200,
-    marginVertical: 10,
+    height: hp('25%'),
+    marginVertical: hp('1.5%'),
   },
   slide: {
     flex: 1,
   },
   image: {
-    width: '100%',
-    height: '100%',
+    width: wp('100%'),
+    height: hp('25%'),
   },
   pagination: {
-    bottom: 10,
+    bottom: hp('1.5%'),
   },
   dot: {
     backgroundColor: '#ccc',
-    width: 8,
-    height: 8,
-    borderRadius: 4,
-    marginLeft: 3,
-    marginRight: 3,
+    width: wp('2%'),
+    height: wp('2%'),
+    borderRadius: wp('1%'),
+    marginLeft: wp('0.8%'),
+    marginRight: wp('0.8%'),
   },
   activeDot: {
     backgroundColor: '#000',
-    width: 8,
-    height: 8,
-    borderRadius: 4,
-    marginLeft: 3,
-    marginRight: 3,
+    width: wp('2%'),
+    height: wp('2%'),
+    borderRadius: wp('1%'),
+    marginLeft: wp('0.8%'),
+    marginRight: wp('0.8%'),
   },
 });
 

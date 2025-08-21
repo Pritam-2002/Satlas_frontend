@@ -11,6 +11,10 @@ import {
 import { SafeAreaView } from 'react-native-safe-area-context';
 import Icon from 'react-native-vector-icons/Ionicons';
 import { RFValue } from 'react-native-responsive-fontsize';
+import {
+  widthPercentageToDP as wp,
+  heightPercentageToDP as hp,
+} from 'react-native-responsive-screen';
 import MenuGrid from 'app/components/main/home/TopMenu';
 import { LinearGradient } from 'expo-linear-gradient';
 import PracticeCard from 'app/components/main/home/card/CourseCard';
@@ -41,12 +45,13 @@ const Dashboard = () => {
     >
       <SafeAreaView style={styles.container}>
 
-        <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={{ paddingBottom: "10%" }}>
+        <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={styles.scrollContainer}>
 
           {/* Header */}
           <View style={styles.header}>
             <View style={styles.headerLeft}>
-              <Icon name="menu" size={24} color="#000" />
+            
+            
               <Text style={styles.title}>SAT Dashboard</Text>
             </View>
 
@@ -57,26 +62,20 @@ const Dashboard = () => {
 
           <AutoSlider />
           {/* separator */}
-          <View style={{ height: 0.5, width: "100%", backgroundColor: "#C9C9C9" }} >
-
-          </View>
+          <View style={styles.separator} />
           {/* Top Menu */}
           <MenuGrid />
 
-          <View style={{ height: 0.5, width: "100%", backgroundColor: "#C9C9C9" }} >
-
-          </View>
+          <View style={styles.separator} />
 
 
 
 
           {/* Free Practice & Courses */}
           <View style={styles.sectionRow}>
-
-
-            <View>
+            <View style={styles.sectionContainer}>
               <Text style={styles.sectionTitle}>Free Practice</Text>
-              <View style={{ height: 3, width: "30%", backgroundColor: "#612EF7", marginTop: 5, marginBottom: "5%" }} ></View>
+              <View style={[styles.underline, { backgroundColor: "#612EF7" }]} />
 
               <PracticeCard
                 actionbtntext={"Start Now"}
@@ -90,14 +89,9 @@ const Dashboard = () => {
               />
             </View>
 
-
-
-
-
-
-            <View>
+            <View style={styles.sectionContainer}>
               <Text style={styles.sectionTitle}>Courses</Text>
-              <View style={{ height: 3, width: "30%", backgroundColor: "#34C759", marginTop: 5, marginBottom: "5%" }} ></View>
+              <View style={[styles.underline, { backgroundColor: "#34C759" }]} />
               <PracticeCard
                 actionbtntext={"View All"}
                 cardTitle='Course Progress'
@@ -109,18 +103,17 @@ const Dashboard = () => {
                 onPress={() => navigation.navigate('SatLibaryPage')}
               />
             </View>
-
           </View>
 
           {/* Live Sessions */}
           <View style={styles.liveSection}>
             <View style={styles.liveHeader}>
-              <View>
+              <View style={styles.liveTitleContainer}>
                 <Text style={styles.liveTitle}>Recent Live Sessions</Text>
-                <View style={{ height: 3, width: "33%", backgroundColor: "#34C759" }}></View>
+                <View style={[styles.underline, { backgroundColor: "#34C759", width: "60%" }]} />
               </View>
 
-              <TouchableOpacity style={{ backgroundColor: "#34C759", height: 30, width: 80, borderRadius: 20, alignItems: "center", justifyContent: "center" }}>
+              <TouchableOpacity style={styles.viewAllButton}>
                 <Text style={styles.viewAll}>View all</Text>
               </TouchableOpacity>
             </View>
@@ -157,13 +150,21 @@ export default Dashboard;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    paddingHorizontal: 16,
+    paddingHorizontal: wp('4%'),
+  },
+  scrollContainer: {
+    paddingBottom: hp('10%'),
+  },
+  separator: {
+    height: hp('0.1%'),
+    width: wp('100%'),
+    backgroundColor: '#C9C9C9',
   },
   header: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    marginTop: 10,
+    marginTop: hp('2%'),
   },
   gradient: {
     flex: 1,
@@ -171,34 +172,34 @@ const styles = StyleSheet.create({
   headerLeft: {
     flexDirection: 'row',
     alignItems: 'center',
-    gap: 10,
+    gap: wp('3%'),
   },
   title: {
     fontSize: RFValue(16),
     fontWeight: '600',
-    color: '#000000', // Added explicit black color
+    color: '#000000', 
   },
   avatar: {
-    height: 35,
-    width: 35,
-    borderRadius: 20,
+    height: wp('9%'),
+    width: wp('9%'),
+    borderRadius: wp('5%'),
   },
   gridContainer: {
     alignItems: 'center',
     justifyContent: 'center',
-    marginTop: 20,
+    marginTop: hp('3%'),
   },
   gridItem: {
     flex: 1,
     alignItems: 'center',
-    marginVertical: 10,
-    minWidth: '25%',
+    marginVertical: hp('1.2%'),
+    minWidth: wp('25%'),
   },
   banner: {
     backgroundColor: '#DDEAFE',
-    borderRadius: 16,
-    padding: 20,
-    marginTop: 20,
+    borderRadius: wp('4%'),
+    padding: wp('5%'),
+    marginTop: hp('3%'),
     alignItems: 'center',
   },
   bannerText: {
@@ -208,42 +209,54 @@ const styles = StyleSheet.create({
   },
   bannerSub: {
     fontSize: RFValue(14),
-    marginTop: 4,
+    marginTop: hp('0.5%'),
     color: '#666666',
   },
   bannerImage: {
-    height: 60,
-    width: 60,
-    marginTop: 10,
+    height: wp('15%'),
+    width: wp('15%'),
+    marginTop: hp('1.5%'),
   },
   topMenu: {
-    marginTop: 20,
+    marginTop: hp('3%'),
   },
   menuItem: {
     alignItems: 'center',
-    marginHorizontal: 10,
+    marginHorizontal: wp('3%'),
   },
   menuText: {
     fontSize: RFValue(10),
-    marginTop: 4,
+    marginTop: hp('0.5%'),
     color: '#666666',
   },
   sectionRow: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    marginTop: 25,
+    gap: wp('3%'),
+    marginTop: hp('4%'),
+    
+  },
+  sectionContainer: {
+    flex: 1,
+    
+  },
+  underline: {
+    height: hp('0.4%'),
+    width: wp('20%'),
+    marginTop: hp('0.8%'),
+    marginBottom: hp('2%'),
   },
  
   sectionTitle: {
     fontWeight: "bold",
-    fontSize: 16,
-    color: '#000000', 
+    fontSize: RFValue(14),
+    color: 'black', 
   },
   card: {
     backgroundColor: '#fff',
-    borderRadius: 16,
-    padding: 16,
-    width: '48%',
+    borderRadius: wp('4%'),
+    padding: wp('4%'),
+    width: wp('45%'),
     elevation: 2,
   },
   cardTitle: {
@@ -253,15 +266,15 @@ const styles = StyleSheet.create({
   },
   cardSubtitle: {
     fontSize: RFValue(10),
-    marginVertical: 6,
+    marginVertical: hp('1%'),
     color: '#666666', 
   },
   startBtn: {
     backgroundColor: '#4A90E2',
-    padding: 6,
-    borderRadius: 12,
+    padding: wp('2%'),
+    borderRadius: wp('3%'),
     alignItems: 'center',
-    marginVertical: 6,
+    marginVertical: hp('1%'),
   },
   startText: {
     color: '#fff',
@@ -269,10 +282,10 @@ const styles = StyleSheet.create({
   },
   viewBtn: {
     backgroundColor: '#E0D5F6',
-    padding: 6,
-    borderRadius: 12,
+    padding: wp('2%'),
+    borderRadius: wp('3%'),
     alignItems: 'center',
-    marginVertical: 6,
+    marginVertical: hp('1%'),
   },
   viewText: {
     color: '#6A38B1',
@@ -283,12 +296,25 @@ const styles = StyleSheet.create({
     color: '#888',
   },
   liveSection: {
-    marginTop: 30,
+    marginTop: hp('5%'),
+  },
+  liveTitleContainer: {
+    flex: 1,
+  },
+  viewAllButton: {
+    backgroundColor: '#34C759',
+    height: hp('4%'),
+    paddingHorizontal: wp('4%'),
+    minWidth: wp('20%'),
+    borderRadius: wp('5%'),
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   liveHeader: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    marginBottom: 10,
+    alignItems: 'flex-start',
+    marginBottom: hp('2%'),
   },
   liveTitle: {
     fontSize: RFValue(14),
@@ -300,16 +326,16 @@ const styles = StyleSheet.create({
     fontSize: RFValue(12),
   },
   liveCard: {
-    width: 180,
-    marginRight: 16,
+    width: wp('45%'),
+    marginRight: wp('4%'),
   },
   liveImage: {
-    height: 100,
-    borderRadius: 12,
+    height: hp('12%'),
+    borderRadius: wp('3%'),
   },
   liveText: {
     fontSize: RFValue(10),
-    marginTop: 4,
+    marginTop: hp('0.5%'),
     color: '#666666', 
   },
 });

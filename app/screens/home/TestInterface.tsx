@@ -14,6 +14,10 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import Icon from 'react-native-vector-icons/Ionicons';
 import { RFValue } from 'react-native-responsive-fontsize';
+import {
+  widthPercentageToDP as wp,
+  heightPercentageToDP as hp,
+} from 'react-native-responsive-screen';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useNavigation } from '@react-navigation/native';
 import quizService from '../../services/quizService';
@@ -668,14 +672,14 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    paddingHorizontal: 26,
-    paddingTop: 15,
-    paddingBottom: 15,
+    paddingHorizontal: wp('7%'),
+    paddingTop: hp('2%'),
+    paddingBottom: hp('2%'),
   },
   headerLeft: {
     flexDirection: 'row',
     alignItems: 'center',
-    gap: 10,
+    gap: wp('3%'),
   },
   headerTitle: {
     fontSize: 18,
@@ -686,10 +690,9 @@ const styles = StyleSheet.create({
   },
   timerContainer: {
     backgroundColor: '#FFFFFF',
-    borderRadius: 9,
-
-    paddingHorizontal: 8,
-    paddingVertical: 2,
+    borderRadius: wp('2%'),
+    paddingHorizontal: wp('2%'),
+    paddingVertical: hp('0.3%'),
   },
   timerText: {
     fontSize: 15,
@@ -702,15 +705,14 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    paddingHorizontal: 26,
-    paddingVertical: 10,
-
-    marginLeft: 25
+    paddingHorizontal: wp('7%'),
+    paddingVertical: hp('1.5%'),
+    marginLeft: wp('6%'),
   },
   testInfoLeft: {
     flexDirection: 'row',
     alignItems: 'center',
-    gap: 12,
+    gap: wp('3%'),
   },
   testInfoText: {
     fontSize: 14,
@@ -726,14 +728,14 @@ const styles = StyleSheet.create({
   },
   tabsContainer: {
     flexDirection: 'row',
-    paddingTop: 10,
+    paddingTop: hp('1.5%'),
     justifyContent: 'center',
-    gap: 30,
+    gap: wp('8%'),
   },
   tab: {
-    paddingVertical: 8,
+    paddingVertical: hp('1%'),
     position: 'relative',
-    minWidth: 100,
+    minWidth: wp('25%'),
     alignItems: 'center',
   },
   tabActive: {
@@ -756,9 +758,9 @@ const styles = StyleSheet.create({
     bottom: 0,
     left: 0,
     right: 0,
-    height: 4,
+    height: hp('0.5%'),
     backgroundColor: '#01AF70',
-    borderRadius: 2,
+    borderRadius: wp('0.5%'),
   },
   content: {
     flex: 1,
@@ -769,8 +771,8 @@ const styles = StyleSheet.create({
   labelContainer: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    paddingHorizontal: 26,
-    paddingTop: 16,
+    paddingHorizontal: wp('7%'),
+    paddingTop: hp('2%'),
   },
   questionLabel: {
     fontSize: 16,
@@ -785,8 +787,8 @@ const styles = StyleSheet.create({
     fontFamily: 'Poppins',
   },
   passageContainer: {
-    paddingHorizontal: 26,
-    paddingVertical: 12,
+    paddingHorizontal: wp('7%'),
+    paddingVertical: hp('1.5%'),
   },
   passageText: {
     fontSize: 15,
@@ -796,8 +798,8 @@ const styles = StyleSheet.create({
     lineHeight: 22,
   },
   questionContainer: {
-    paddingHorizontal: 26,
-    paddingVertical: 12,
+    paddingHorizontal: wp('7%'),
+    paddingVertical: hp('1.5%'),
     borderBottomWidth: 1,
     borderBottomColor: '#E5E5E5',
   },
@@ -809,36 +811,36 @@ const styles = StyleSheet.create({
     lineHeight: 18,
   },
   answersContainer: {
-    paddingHorizontal: 26,
-    paddingTop: 20,
-    paddingBottom: 100,
+    paddingHorizontal: wp('7%'),
+    paddingTop: hp('2.5%'),
+    paddingBottom: hp('12%'),
   },
   answerOption: {
-    marginBottom: 13,
+    marginBottom: hp('1.5%'),
   },
   answerRow: {
     flexDirection: 'row',
     alignItems: 'flex-start',
-    gap: 20,
+    gap: wp('5%'),
   },
   radioButton: {
-    width: 18,
-    height: 18,
-    borderRadius: 10,
+    width: wp('4.5%'),
+    height: wp('4.5%'),
+    borderRadius: wp('2.5%'),
     backgroundColor: '#2D2D2D',
     borderWidth: 1,
     borderColor: '#333333',
     alignItems: 'center',
     justifyContent: 'center',
-    marginTop: 2,
+    marginTop: hp('0.3%'),
   },
   radioButtonSelected: {
     borderColor: '#01AF70',
   },
   radioButtonInner: {
-    width: 8,
-    height: 8,
-    borderRadius: 4,
+    width: wp('2%'),
+    height: wp('2%'),
+    borderRadius: wp('1%'),
     backgroundColor: '#01AF70',
   },
   answerText: {
@@ -855,7 +857,7 @@ const styles = StyleSheet.create({
     bottom: 0,
     left: 0,
     right: 0,
-    height: 50,
+    height: hp('6%'),
   },
   navButton: {
     flex: 1,
@@ -882,15 +884,15 @@ const styles = StyleSheet.create({
     fontFamily: 'Poppins',
   },
   imageContainer: {
-    paddingHorizontal: 26,
-    paddingVertical: 20,
+    paddingHorizontal: wp('7%'),
+    paddingVertical: hp('2.5%'),
     alignItems: 'center',
-    marginVertical: 10,
+    marginVertical: hp('1.5%'),
   },
   questionImage: {
-    width: '100%',
-    height: 200,
-    borderRadius: 8,
+    width: wp('86%'),
+    height: hp('25%'),
+    borderRadius: wp('2%'),
   },
   navButtonsContainer: {
     flex: 1,
@@ -908,19 +910,19 @@ const styles = StyleSheet.create({
   },
   modalContent: {
     backgroundColor: 'white',
-    borderRadius: 20,
-    padding: 20,
+    borderRadius: wp('5%'),
+    padding: wp('5%'),
     alignItems: 'center',
-    width: '80%',
+    width: wp('80%'),
   },
   successIconContainer: {
-    width: 60,
-    height: 60,
-    borderRadius: 30,
+    width: wp('15%'),
+    height: wp('15%'),
+    borderRadius: wp('7.5%'),
     backgroundColor: '#E8F5E9',
     alignItems: 'center',
     justifyContent: 'center',
-    marginBottom: 15,
+    marginBottom: hp('2%'),
   },
   modalTitle: {
     fontSize: 20,
@@ -933,13 +935,13 @@ const styles = StyleSheet.create({
     fontSize: 14,
     color: '#666666',
     textAlign: 'center',
-    marginBottom: 20,
+    marginBottom: hp('2.5%'),
   },
   viewResultButton: {
     backgroundColor: '#376AED',
-    paddingVertical: 12,
-    paddingHorizontal: 24,
-    borderRadius: 8,
+    paddingVertical: hp('1.5%'),
+    paddingHorizontal: wp('6%'),
+    borderRadius: wp('2%'),
   },
   viewResultButtonText: {
     color: 'white',

@@ -10,6 +10,10 @@ import { useState, useEffect } from 'react';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import Icon from 'react-native-vector-icons/Ionicons';
 import { RFValue } from 'react-native-responsive-fontsize';
+import {
+  widthPercentageToDP as wp,
+  heightPercentageToDP as hp,
+} from 'react-native-responsive-screen';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
@@ -152,8 +156,7 @@ const styles = StyleSheet.create({
   },
   safeArea: {
     flex: 1,
-    paddingTop: "10%",
-
+    paddingTop: hp('2%'),
   },
   gradient: {
     flex: 1,
@@ -162,14 +165,14 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    paddingHorizontal: 26,
-    paddingTop: 15,
-    paddingBottom: 15,
+    paddingHorizontal: wp('7%'),
+    paddingTop: hp('2%'),
+    paddingBottom: hp('2%'),
   },
   headerRow: {
     flexDirection: 'row',
     alignItems: 'center',
-    gap: 10
+    gap: wp('3%'),
   },
   headerTitle: {
     fontSize: 18,
@@ -199,19 +202,24 @@ const styles = StyleSheet.create({
   },
   avatarContainer: {
     alignItems: 'center',
-    justifyContent: "center",
-    width: 40,
-    borderColor: "#F7B500",
+    justifyContent: 'center',
+    width: wp('10%'),
+    borderColor: '#F7B500',
     borderWidth: 1,
-    borderRadius: 9999,
-    height: 40,
+    borderRadius: wp('5%'),
+    height: wp('10%'),
   },
   performanceRow: {
-    flexDirection: 'row', alignItems: 'center', gap: 8, width: "100%", justifyContent: 'space-between', paddingBottom: "0.5%",
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: wp('2%'),
+    width: '100%',
+    justifyContent: 'space-between',
+    paddingBottom: hp('0.5%'),
   },
   avatar: {
-    height: "100%",
-    width: "100%",
+    height: '100%',
+    width: '100%',
     borderWidth: 1,
     borderColor: '#F7B500',
     alignItems: 'center',
@@ -219,33 +227,30 @@ const styles = StyleSheet.create({
   },
   scrollView: {
     flex: 1,
-    marginTop: 20,
-    borderTopLeftRadius: 20,
+    marginTop: hp('2.5%'),
+    borderTopLeftRadius: wp('5%'),
   },
   performanceContainer: {
     flexDirection: 'row',
-    paddingHorizontal: 29,
-    paddingTop: 30,
-    gap: 8,
-    width: "100%"
+    paddingHorizontal: wp('7%'),
+    paddingTop: hp('2%'),
+    gap: wp('2%'),
+    width: '100%',
   },
   performanceCard: {
-
     backgroundColor: '#376AED',
-    borderRadius: 16,
-    paddingHorizontal: "3%",
-    paddingVertical: "2%",
-    width: "50%"
-
+    borderRadius: wp('4%'),
+    paddingHorizontal: wp('3%'),
+    paddingVertical: hp('2%'),
+    width: wp('44%'),
   },
   performanceIcon: {
-    width: 32,
-    height: 32,
+    width: wp('8%'),
+    height: wp('8%'),
     backgroundColor: '#07E092',
-    borderRadius: 8,
+    borderRadius: wp('2%'),
     alignItems: 'center',
     justifyContent: 'center',
-
   },
   performanceNumber: {
     fontSize: 32,
@@ -256,19 +261,16 @@ const styles = StyleSheet.create({
 
   },
   performanceLabel: {
-    fontSize: 16,
+    fontSize: RFValue(14),
     fontWeight: '400',
     color: 'white',
     fontFamily: 'Poppins',
-    width: "70%",
-
-
-
+    width: '70%',
   },
   analysisLink: {
     alignItems: 'flex-end',
-    paddingHorizontal: 29,
-    paddingTop: 12,
+    paddingHorizontal: wp('7%'),
+    paddingTop: hp('1.5%'),
   },
   analysisText: {
     fontSize: 14,
@@ -277,18 +279,18 @@ const styles = StyleSheet.create({
     fontFamily: 'Inter',
   },
   sectionTitle: {
-    fontSize: 20,
+    fontSize: RFValue(18),
     fontWeight: '500',
     color: '#070417',
     fontFamily: 'Poppins',
-    paddingHorizontal: 16,
-    paddingTop: 24,
-    paddingBottom: 10,
+    paddingHorizontal: wp('4%'),
+    paddingTop: hp('2%'),
+  
   },
   testsContainer: {
-    paddingHorizontal: 16,
-    gap: 13,
-    paddingBottom: 100,
+    paddingHorizontal: wp('4%'),
+    gap: hp('2%'),
+    paddingBottom: hp('10%'),
   },
 
 });
