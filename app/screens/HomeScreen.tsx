@@ -7,6 +7,7 @@ import {
   Image,
   TouchableOpacity,
   FlatList,
+  StatusBar,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import Icon from 'react-native-vector-icons/Ionicons';
@@ -43,6 +44,7 @@ const Dashboard = () => {
       end={{ x: 0.5, y: 1 }}
       style={styles.gradient}
     >
+      <StatusBar barStyle="light-content" backgroundColor="#000000"  />
       <SafeAreaView style={styles.container}>
 
         <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={styles.scrollContainer}>
@@ -232,7 +234,7 @@ const styles = StyleSheet.create({
   sectionRow: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    gap: wp('3%'),
+    gap: wp('2%'),
     marginTop: hp('4%'),
     
   },

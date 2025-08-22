@@ -37,6 +37,7 @@ export default function BookDemoScreen() {
                 placeholder="Your Full Name"
                 value={name}
                 onChangeText={setName}
+                placeholderTextColor="black"
             />
 
             <TextInput
@@ -45,6 +46,7 @@ export default function BookDemoScreen() {
                 keyboardType="email-address"
                 value={email}
                 onChangeText={setEmail}
+                placeholderTextColor="black"
             />
 
             <TextInput
@@ -53,6 +55,7 @@ export default function BookDemoScreen() {
                 keyboardType="phone-pad"
                 value={phone}
                 onChangeText={setPhone}
+                placeholderTextColor="black"
             />
 
             <TouchableOpacity onPress={() => setShowDatePicker(true)} style={styles.input}>
@@ -68,6 +71,7 @@ export default function BookDemoScreen() {
                         setShowDatePicker(false);
                         if (selectedDate) setDemoDate(selectedDate);
                     }}
+                    style={{ color: 'black' }}
                 />
             )}
 
@@ -76,6 +80,7 @@ export default function BookDemoScreen() {
                 <Picker
                     selectedValue={subject}
                     onValueChange={(itemValue) => setSubject(itemValue)}
+                    style={{ color: 'black' }}
                 >
                     <Picker.Item label="-- Select Subject --" value="" />
                     <Picker.Item label="Math" value="Math" />
@@ -89,6 +94,7 @@ export default function BookDemoScreen() {
                 <Picker
                     selectedValue={timeSlot}
                     onValueChange={(itemValue) => setTimeSlot(itemValue)}
+                    style={{ color: 'black' }}
                 >
                     <Picker.Item label="-- Select Slot --" value="" />
                     <Picker.Item label="10:00 AM - 11:00 AM" value="10:00 AM - 11:00 AM" />
@@ -125,6 +131,7 @@ const styles = StyleSheet.create({
         borderRadius: 10,
         marginBottom: 16,
         fontSize: 16,
+        color: 'black',
     },
     pickerContainer: {
         borderWidth: 1,
